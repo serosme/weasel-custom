@@ -1,0 +1,38 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+        with:
+          path: this-repo
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Checkout the source repository
+        uses: actions/checkout@v4
+        with:
+          repository: iDvel/rime-ice
+          path: source-repo
+          fetch-depth: 1
+
+      - name: Merge files from repositories
+        run: |
+          mkdir -p release
+          cp -r source-repo/* release/
+          cp -r this-repo/* release/
+          zip -r release.zip release/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release.zip
+          tag_name: latest
+          name: Latest Release
+          body: "This is the latest release containing files from both repositories."
