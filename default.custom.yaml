@@ -3,6 +3,6 @@ patch:
     - { schema: double_pinyin_flypy }
     - { schema: rime_ice }
   switcher/hotkeys:
-    - Control+Shift+plus
+    - Control+Shift+bar
   menu/page_size: 10
   ascii_composer/switch_key/Shift_L: noop
